@@ -19,9 +19,9 @@ func EmployeeRoutes(echo *echo.Echo, employeeCtr controllers.EmployeeController)
 	}
 }
 
-func (employee *employeeRoutes) InitEmployeeRoutes() {
-	e := employee.echo
-	employee.initEmployeeRoutes(e)
+func (emp *employeeRoutes) InitEmployeeRoutes() {
+	e := emp.echo
+	emp.initEmployeeRoutes(e)
 }
 
 func (emp *employeeRoutes) initEmployeeRoutes(e *echo.Echo) {

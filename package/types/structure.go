@@ -20,6 +20,5 @@ func (emp EmployeeRequest) Validate() error {
 			validation.Length(1, 50)),
 		validation.Field(&emp.Designation,
 			validation.Required.Error("Designation ID is required")),
-		
 	)
 }

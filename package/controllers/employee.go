@@ -20,11 +20,11 @@ func NewEmployeeController(EmployeeSrv domain.IEmployeeService) EmployeeControll
 }
 
 func (emp *EmployeeController) GetAllEmployee(e echo.Context) error {
-	books, err := emp.EmployeeSrv.GetAllEmployee()
+	employees, err := emp.EmployeeSrv.GetAllEmployee()
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}
-	return e.JSON(http.StatusOK, books)
+	return e.JSON(http.StatusOK, employees)
 }
 
 func (emp *EmployeeController) GetEmployeeById(e echo.Context) error {
@@ -51,15 +51,8 @@ func (emp *EmployeeController) CreateEmployee(e echo.Context) error {
 	if err := reqEmployee.Validate(); err != nil {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}
-	employee := &models.Employee{
-		Name:        reqEmployee.Name,
-		Designation: reqEmployee.Designation,
-		Date:        reqEmployee.Date,
-		EntryTime:   reqEmployee.EntryTime,
-		ExitTime:    reqEmployee.ExitTime,
-	}
 
-	if err := emp.EmployeeSrv.CreateEmployee(employee); err != nil {
+	if err := emp.EmployeeSrv.CreateEmployee(reqEmployee); err != nil {
 		return e.JSON(http.StatusInternalServerError, err.Error())
 	}
 	return e.JSON(http.StatusCreated, "Employee created successfully")

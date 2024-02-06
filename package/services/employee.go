@@ -4,6 +4,7 @@ import (
 	"errors"
 	"vivasoft-employee-entry-time-management/package/domain"
 	"vivasoft-employee-entry-time-management/package/models"
+	"vivasoft-employee-entry-time-management/package/types"
 )
 
 type employeeService struct {
@@ -33,7 +34,16 @@ func (service *employeeService) GetEmployeeById(id uint) (models.Employee, error
 	return employeeDetail, nil
 }
 
-func (service *employeeService) CreateEmployee(employee *models.Employee) error {
+func (service *employeeService) CreateEmployee(reqEmployee *types.EmployeeRequest) error {
+
+	employee := &models.Employee{
+		Name:        reqEmployee.Name,
+		Designation: reqEmployee.Designation,
+		Date:        reqEmployee.Date,
+		EntryTime:   reqEmployee.EntryTime,
+		ExitTime:    reqEmployee.ExitTime,
+	}
+
 	if err := service.employeeRepo.CreateEmployee(employee); err != nil {
 		return errors.New("employee not created")
 	}
