@@ -75,6 +75,36 @@ func (emp *EmployeeController) DeleteEmployee(e echo.Context) error {
 	return e.JSON(http.StatusOK, "Employee deleted successfully")
 }
 
+//func (emp *EmployeeController) UpdateEmployee(e echo.Context) error {
+//
+//	tempEmpID := e.Param("id")
+//	empID, err := strconv.ParseInt(tempEmpID, 0, 0)
+//	if err != nil {
+//		return e.JSON(http.StatusBadRequest, "Enter a valid Employee ID")
+//	}
+//
+//	_, err = emp.EmployeeSrv.GetEmployeeById(uint(empID))
+//	if err != nil {
+//		return e.JSON(http.StatusBadRequest, err.Error())
+//	}
+//
+//	reqEmployee := &types.EmployeeRequest{}
+//
+//	if err := e.Bind(reqEmployee); err != nil {
+//		return e.JSON(http.StatusBadRequest, "Invalid Data")
+//	}
+//
+//	if err := reqEmployee.Validate(); err != nil {
+//		return e.JSON(http.StatusBadRequest, err.Error())
+//	}
+//
+//	if err := emp.EmployeeSrv.UpdateEmployee(reqEmployee, uint(empID)); err != nil {
+//		return e.JSON(http.StatusInternalServerError, err.Error())
+//	}
+//
+//	return e.JSON(http.StatusCreated, "Employee updated successfully")
+//}
+
 func (emp *EmployeeController) UpdateEmployee(e echo.Context) error {
 	reqEmployee := &types.EmployeeRequest{}
 
