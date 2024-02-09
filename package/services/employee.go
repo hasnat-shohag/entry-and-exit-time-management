@@ -50,73 +50,41 @@ func (service *employeeService) CreateEmployee(reqEmployee *types.EmployeeReques
 	return nil
 }
 
-// func (service *employeeService) UpdateEmployee(reqEmployee *types.EmployeeRequest, ID uint) error {
-//
-//		updatedEmployee := &models.Employee{
-//			Name:        reqEmployee.Name,
-//			Designation: reqEmployee.Designation,
-//			Date:        reqEmployee.Date,
-//			EntryTime:   reqEmployee.EntryTime,
-//			ExitTime:    reqEmployee.ExitTime,
-//		}
-//
-//		existingEmployee, err := service.GetEmployeeById(ID)
-//		if err != nil {
-//			return errors.New("employee not found")
-//		}
-//
-//		if updatedEmployee.Name == "" {
-//			updatedEmployee.Name = existingEmployee.Name
-//		}
-//		if updatedEmployee.Designation == "" {
-//			updatedEmployee.Designation = existingEmployee.Designation
-//		}
-//		if updatedEmployee.Date.IsZero() {
-//			updatedEmployee.Date = existingEmployee.Date
-//		}
-//		if updatedEmployee.CreatedAt.IsZero() {
-//			updatedEmployee.CreatedAt = existingEmployee.CreatedAt
-//		}
-//		if updatedEmployee.EntryTime.IsZero() {
-//			updatedEmployee.EntryTime = existingEmployee.EntryTime
-//		}
-//		if updatedEmployee.ExitTime.IsZero() {
-//			updatedEmployee.ExitTime = existingEmployee.ExitTime
-//		}
-//
-//		if err := service.employeeRepo.UpdateEmployee(updatedEmployee); err != nil {
-//			return errors.New("employee not updated")
-//		}
-//
-//		return nil
-//	}
+func (service *employeeService) UpdateEmployee(reqEmployee *types.EmployeeRequest, ID uint) error {
 
-func (service *employeeService) UpdateEmployee(updateEmployee *models.Employee) error {
-	existingEmployee, err := service.GetEmployeeById(updateEmployee.ID)
+	updatedEmployee := &models.Employee{
+		Name:        reqEmployee.Name,
+		Designation: reqEmployee.Designation,
+		Date:        reqEmployee.Date,
+		EntryTime:   reqEmployee.EntryTime,
+		ExitTime:    reqEmployee.ExitTime,
+	}
+	updatedEmployee.ID = ID
+	existingEmployee, err := service.GetEmployeeById(ID)
 	if err != nil {
 		return errors.New("employee not found")
 	}
-	if updateEmployee.Name == "" {
-		updateEmployee.Name = existingEmployee.Name
+
+	if updatedEmployee.Name == "" {
+		updatedEmployee.Name = existingEmployee.Name
 	}
-	if updateEmployee.Designation == "" {
-		updateEmployee.Designation = existingEmployee.Designation
+	if updatedEmployee.Designation == "" {
+		updatedEmployee.Designation = existingEmployee.Designation
 	}
-	if updateEmployee.Date.IsZero() {
-		updateEmployee.Date = existingEmployee.Date
+	if updatedEmployee.Date.IsZero() {
+		updatedEmployee.Date = existingEmployee.Date
 	}
-	if updateEmployee.CreatedAt.IsZero() {
-		updateEmployee.CreatedAt = existingEmployee.CreatedAt
+	if updatedEmployee.CreatedAt.IsZero() {
+		updatedEmployee.CreatedAt = existingEmployee.CreatedAt
 	}
-	if updateEmployee.EntryTime.IsZero() {
-		updateEmployee.EntryTime = existingEmployee.EntryTime
+	if updatedEmployee.EntryTime.IsZero() {
+		updatedEmployee.EntryTime = existingEmployee.EntryTime
 	}
-	if updateEmployee.ExitTime.IsZero() {
-		updateEmployee.ExitTime = existingEmployee.ExitTime
+	if updatedEmployee.ExitTime.IsZero() {
+		updatedEmployee.ExitTime = existingEmployee.ExitTime
 	}
 
-	if err := service.employeeRepo.UpdateEmployee(updateEmployee); err != nil {
-
+	if err := service.employeeRepo.UpdateEmployee(updatedEmployee); err != nil {
 		return errors.New("employee not updated")
 	}
 

@@ -18,6 +18,5 @@ type IEmployeeService interface {
 	GetEmployeeById(id uint) (models.Employee, error)
 	CreateEmployee(employee *types.EmployeeRequest) error
 	DeleteEmployee(id uint) error
-	UpdateEmployee(employee *models.Employee) error
-	//UpdateEmployee(employee *types.EmployeeRequest, id uint) error
+	UpdateEmployee(employee *types.EmployeeRequest, id uint) error
 }

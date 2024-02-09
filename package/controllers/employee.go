@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"strconv"
 	"vivasoft-employee-entry-time-management/package/domain"
-	"vivasoft-employee-entry-time-management/package/models"
 	"vivasoft-employee-entry-time-management/package/types"
 )
 
@@ -75,42 +74,7 @@ func (emp *EmployeeController) DeleteEmployee(e echo.Context) error {
 	return e.JSON(http.StatusOK, "Employee deleted successfully")
 }
 
-//func (emp *EmployeeController) UpdateEmployee(e echo.Context) error {
-//
-//	tempEmpID := e.Param("id")
-//	empID, err := strconv.ParseInt(tempEmpID, 0, 0)
-//	if err != nil {
-//		return e.JSON(http.StatusBadRequest, "Enter a valid Employee ID")
-//	}
-//
-//	_, err = emp.EmployeeSrv.GetEmployeeById(uint(empID))
-//	if err != nil {
-//		return e.JSON(http.StatusBadRequest, err.Error())
-//	}
-//
-//	reqEmployee := &types.EmployeeRequest{}
-//
-//	if err := e.Bind(reqEmployee); err != nil {
-//		return e.JSON(http.StatusBadRequest, "Invalid Data")
-//	}
-//
-//	if err := reqEmployee.Validate(); err != nil {
-//		return e.JSON(http.StatusBadRequest, err.Error())
-//	}
-//
-//	if err := emp.EmployeeSrv.UpdateEmployee(reqEmployee, uint(empID)); err != nil {
-//		return e.JSON(http.StatusInternalServerError, err.Error())
-//	}
-//
-//	return e.JSON(http.StatusCreated, "Employee updated successfully")
-//}
-
 func (emp *EmployeeController) UpdateEmployee(e echo.Context) error {
-	reqEmployee := &types.EmployeeRequest{}
-
-	if err := e.Bind(reqEmployee); err != nil {
-		return e.JSON(http.StatusBadRequest, "Invalid Data")
-	}
 
 	tempEmpID := e.Param("id")
 	empID, err := strconv.ParseInt(tempEmpID, 0, 0)
@@ -123,18 +87,21 @@ func (emp *EmployeeController) UpdateEmployee(e echo.Context) error {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	updatedEmployee := &models.Employee{
-		Name:        reqEmployee.Name,
-		Designation: reqEmployee.Designation,
-		Date:        reqEmployee.Date,
-		EntryTime:   reqEmployee.EntryTime,
-		ExitTime:    reqEmployee.ExitTime,
-	}
-	updatedEmployee.ID = uint(empID)
+	reqEmployee := &types.EmployeeRequest{}
 
-	if err := emp.EmployeeSrv.UpdateEmployee(updatedEmployee); err != nil {
+	if err := e.Bind(reqEmployee); err != nil {
+		return e.JSON(http.StatusBadRequest, "Invalid Data")
+	}
+
+	if err := reqEmployee.Validate(); err != nil {
+		return e.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	if err := emp.EmployeeSrv.UpdateEmployee(reqEmployee, uint(empID)); err != nil {
 		return e.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	return e.JSON(http.StatusCreated, "Employee updated successfully")
 }
+
+
